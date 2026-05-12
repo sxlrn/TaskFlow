@@ -101,7 +101,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </button>
         </header>
 
-        <main className="flex-1 px-6 py-6 page-fade">
+        <main className="flex-1 px-3 sm:px-6 py-6 page-fade overflow-x-hidden">
           {children}
         </main>
       </div>

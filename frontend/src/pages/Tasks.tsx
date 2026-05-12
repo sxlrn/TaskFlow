@@ -203,7 +203,7 @@ export default function Tasks() {
   });
 
   return (
-    <div className="max-w-7xl mx-auto space-y-4">
+    <div className="w-full max-w-7xl mx-auto space-y-4">
       <div className="flex items-center gap-3 flex-wrap">
         <div className="relative flex-1 min-w-[200px] max-w-xs">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
