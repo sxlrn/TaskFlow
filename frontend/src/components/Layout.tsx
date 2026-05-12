@@ -27,7 +27,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const currentLabel = navItems.find(n => n.path === location.pathname)?.label || '';
 
   return (
-    <div className="min-h-screen bg-[#f8f9fc] flex font-sans">
+    <div className="min-h-screen bg-[#f8f9fc] flex font-sans overflow-x-hidden w-full">
       {sidebarOpen && (
         <div className="fixed inset-0 bg-black/30 z-20 lg:hidden" onClick={() => setSidebarOpen(false)} />
       )}
