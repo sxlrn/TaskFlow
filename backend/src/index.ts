@@ -19,8 +19,20 @@ const PORT = process.env.PORT || 5000;
 
 app.use(helmet());
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
-  credentials: true,
+  origin: (origin, callback) => {
+    const allowedOrigins = [
+      'https://kursova-taskflow.vercel.app',
+      'http://localhost:5173',
+      process.env.CLIENT_URL
+    ].filter((o): o is string => !!o);
+
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
 }));
 app.use(express.json());
 app.use(cookieParser());
