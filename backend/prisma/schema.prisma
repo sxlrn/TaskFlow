@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  password     String?
+  full_name    String
+  role         Role     @default(worker)
+  avatar_color String?
+  department   String?
+  google_id    String?  @unique
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
+
+  assigned_tasks   Task[]        @relation("AssignedTasks")
+  reported_tasks   Task[]        @relation("ReportedTasks")
+  managed_projects Project[]
+  refresh_tokens   RefreshToken[]
+  auth_logs        AuthLog[]
+}
+
+model Project {
+  id          Int           @id @default(autoincrement())
+  title       String
+  description String?
+  status      ProjectStatus @default(active)
+  priority    Priority      @default(medium)
+  color       String?
+  deadline    DateTime?
+  created_at  DateTime      @default(now())
+  updated_at  DateTime      @updatedAt
+
+  manager    User   @relation(fields: [manager_id], references: [id])
+  manager_id Int
+
+  tasks Task[]
+}
+
+model Task {
+  id              Int        @id @default(autoincrement())
+  title           String
+  description     String?
+  status          TaskStatus @default(backlog)
+  priority        Priority   @default(medium)
+  deadline        DateTime?
+  estimated_hours Float?
+  created_at      DateTime   @default(now())
+  updated_at      DateTime   @updatedAt
+
+  project    Project @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  project_id Int
+
+  assignee    User? @relation("AssignedTasks", fields: [assignee_id], references: [id])
+  assignee_id Int?
+
+  reporter    User @relation("ReportedTasks", fields: [reporter_id], references: [id])
+  reporter_id Int
+}
+
+model RefreshToken {
+  id         Int      @id @default(autoincrement())
+  token      String   @unique @db.VarChar(512)
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id    Int
+  expires_at DateTime
+  created_at DateTime @default(now())
+}
+
+model AuthLog {
+  id         Int      @id @default(autoincrement())
+  user       User?    @relation(fields: [user_id], references: [id])
+  user_id    Int?
+  ip         String?
+  success    Boolean
+  email      String
+  created_at DateTime @default(now())
+}
+
+enum Role {
+  admin
+  manager
+  worker
+}
+
+enum ProjectStatus {
+  active
+  on_hold
+  completed
+  archived
+}
+
+enum TaskStatus {
+  backlog
+  todo
+  in_progress
+  review
+  done
+  cancelled
+}
+
+enum Priority {
+  low
+  medium
+  high
+  critical
+}
