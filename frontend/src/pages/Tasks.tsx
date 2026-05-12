@@ -248,8 +248,21 @@ export default function Tasks() {
 
       {isLoading ? (
         <div className="flex gap-3">{[...Array(5)].map((_, i) => <div key={i} className="flex-shrink-0 w-64 h-64 bg-slate-200 rounded-2xl animate-pulse" />)}</div>
-      ) : (
-        <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
+       ) : (
+        <>
+          <div className="md:hidden space-y-3">
+            {filtered.length === 0 ? (
+              <div className="text-center py-12 text-slate-300 text-sm">Задач не знайдено</div>
+            ) : (
+              filtered.map(task => (
+                <TaskCard key={task.id} task={task} currentUser={user}
+                  onEdit={() => { setEditTask(task); setShowModal(true); }}
+                  onStatusChange={(t, s) => statusMutation.mutate({ id: t.id, status: s })}
+                  onDelete={id => deleteMutation.mutate(id)} />
+              ))
+            )}
+          </div>
+          <div className="hidden md:flex gap-3 overflow-x-auto pb-4">
           {STATUSES.filter(s => s !== 'cancelled').map(status => {
             const colTasks = filtered.filter(t => t.status === status);
             return (
@@ -272,6 +285,7 @@ export default function Tasks() {
             );
           })}
         </div>
+        </>
       )}
 
       {showModal && (

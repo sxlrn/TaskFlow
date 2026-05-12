@@ -50,12 +50,10 @@ function StatBox({ value, label }: { value: number; label: string }) {
 
 function StatCard({ icon, bg, count, label }: { icon: React.ReactNode; bg: string; count: number; label: string }) {
   return (
-    <div className="bg-white border border-gray-100 rounded-xl p-4 flex items-center gap-4 shadow-sm">
-      <div className={`${bg} p-3 rounded-lg`}>{icon}</div>
-      <div>
-        <p className="text-xl font-bold text-gray-800">{count}</p>
-        <p className="text-xs text-gray-400">{label}</p>
-      </div>
+    <div className="bg-white border border-gray-100 rounded-xl p-3 flex flex-col items-center gap-1 shadow-sm">
+      <div className={`${bg} p-2 rounded-lg`}>{icon}</div>
+      <p className="text-lg font-bold text-gray-800">{count}</p>
+      <p className="text-xs text-gray-400 text-center">{label}</p>
     </div>
   );
 }
