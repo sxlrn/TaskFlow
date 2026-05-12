@@ -164,8 +164,8 @@ export const googleAuth = async (req: Request, res: Response): Promise<void> => 
       },
     });
   } catch (err) {
-    console.error('Google auth error:', err);
-    res.status(401).json({ error: 'Google автентифікація не вдалась' });
+    console.error('Google auth error:', err instanceof Error ? err.message : err);
+    res.status(401).json({ error: 'Google автентифікація не вдалась', details: err instanceof Error ? err.message : String(err) });
   }
 };
 
