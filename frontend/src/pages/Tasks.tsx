@@ -249,7 +249,7 @@ export default function Tasks() {
       {isLoading ? (
         <div className="flex gap-3">{[...Array(5)].map((_, i) => <div key={i} className="flex-shrink-0 w-64 h-64 bg-slate-200 rounded-2xl animate-pulse" />)}</div>
       ) : (
-        <div className="flex gap-3 overflow-x-auto pb-4">
+        <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
           {STATUSES.filter(s => s !== 'cancelled').map(status => {
             const colTasks = filtered.filter(t => t.status === status);
             return (

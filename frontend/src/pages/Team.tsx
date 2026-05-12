@@ -53,8 +53,8 @@ function StatCard({ icon, bg, count, label }: { icon: React.ReactNode; bg: strin
     <div className="bg-white border border-gray-100 rounded-xl p-4 flex items-center gap-4 shadow-sm">
       <div className={`${bg} p-3 rounded-lg`}>{icon}</div>
       <div>
-        <p className="text-2xl font-bold text-gray-800">{count}</p>
-        <p className="text-sm text-gray-400">{label}</p>
+        <p className="text-xl font-bold text-gray-800">{count}</p>
+        <p className="text-xs text-gray-400">{label}</p>
       </div>
     </div>
   );
@@ -458,7 +458,7 @@ export default function Team() {
         )}
       </div>
 
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-3 gap-3 mb-6">
         <StatCard icon={<Shield   size={20} className="text-red-400"   />} bg="bg-red-50"   count={counts.admin}   label="Адмін"     />
         <StatCard icon={<Briefcase size={20} className="text-blue-400" />} bg="bg-blue-50"  count={counts.manager} label="Менеджер"  />
         <StatCard icon={<HardHat  size={20} className="text-green-500" />} bg="bg-green-50" count={counts.worker}  label="Працівник" />
