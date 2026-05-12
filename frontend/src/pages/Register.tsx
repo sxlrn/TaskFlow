@@ -3,19 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import { useAuth } from '../contexts/AuthContext';
 
-declare global {
-  interface Window {
-    google?: {
-      accounts: {
-        id: {
-          initialize: (config: object) => void;
-          renderButton: (element: HTMLElement, config: object) => void;
-        };
-      };
-    };
-  }
-}
-
 export default function Register() {
   const { googleLogin } = useAuth();
   const navigate = useNavigate();
@@ -26,34 +13,55 @@ export default function Register() {
 
   useEffect(() => {
     const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-    if (!clientId || !window.google) return;
+    if (!clientId) return;
 
-    window.google.accounts.id.initialize({
-      client_id: clientId,
-      callback: async (response: { credential: string }) => {
-        setError('');
-        setLoading(true);
-        try {
-          await googleLogin(response.credential);
-          navigate('/');
-        } catch {
-          setError('Google реєстрація не вдалась');
-        } finally {
-          setLoading(false);
-        }
-      },
-    });
-
-    const btn = document.getElementById('google-btn-register');
-    if (btn) {
-      window.google.accounts.id.renderButton(btn, {
-        theme: 'outline',
-        size: 'large',
-        width: 320,
-        text: 'signup_with',
-        locale: 'uk',
+    const initGoogle = () => {
+      if (!window.google) return;
+      window.google.accounts.id.initialize({
+        client_id: clientId,
+        callback: async (response: { credential: string }) => {
+          setError('');
+          setLoading(true);
+          try {
+            await googleLogin(response.credential);
+            navigate('/');
+          } catch {
+            setError('Google реєстрація не вдалась');
+          } finally {
+            setLoading(false);
+          }
+        },
       });
+
+      const btn = document.getElementById('google-btn-register');
+      if (btn) {
+        window.google.accounts.id.renderButton(btn, {
+          theme: 'outline',
+          size: 'large',
+          width: 320,
+          text: 'signup_with',
+          locale: 'uk',
+        });
+      }
+    };
+
+    if (window.google) {
+      initGoogle();
+      return;
     }
+
+    const existingScript = document.querySelector('script[src*="accounts.google.com/gsi/client"]');
+    if (existingScript) {
+      existingScript.addEventListener('load', initGoogle);
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.src = 'https://accounts.google.com/gsi/client';
+    script.async = true;
+    script.defer = true;
+    script.onload = initGoogle;
+    document.head.appendChild(script);
   }, []);
 
   const handleSubmit = async () => {
@@ -75,7 +83,6 @@ export default function Register() {
 
   return (
     <div className="min-h-screen bg-[#f8f9fc] flex items-center justify-center p-4">
-
       <div className="bg-white rounded-2xl shadow-sm border border-slate-100 w-full max-w-sm p-8">
         <div className="flex flex-col items-center mb-8">
           <div className="w-14 h-14 rounded-2xl bg-indigo-600 flex items-center justify-center mb-4">
@@ -85,12 +92,10 @@ export default function Register() {
           <p className="text-sm text-slate-400 mt-1">Приєднуйтесь до TaskFlow</p>
         </div>
 
-        {/* Google button */}
         <div className="flex justify-center mb-5">
           <div id="google-btn-register" />
         </div>
 
-        {/* Divider */}
         <div className="flex items-center gap-3 mb-5">
           <div className="flex-1 h-px bg-slate-200" />
           <span className="text-xs text-slate-400">або</span>
