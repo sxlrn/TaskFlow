@@ -186,6 +186,7 @@ export const refresh = async (req: Request, res: Response): Promise<void> => {
     const payload = verifyRefreshToken(token);
 
     await prisma.refreshToken.delete({ where: { token } });
+    await prisma.refreshToken.deleteMany({ where: { user_id: payload.userId, expires_at: { lt: new Date() } } });
 
     const newAccessToken = generateAccessToken({ userId: payload.userId, email: payload.email, role: payload.role });
     const newRefreshToken = generateRefreshToken({ userId: payload.userId, email: payload.email, role: payload.role });

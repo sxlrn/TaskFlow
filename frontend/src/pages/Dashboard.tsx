@@ -64,9 +64,9 @@ export default function Dashboard() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 gap-3">
         {STATS.map(({ icon: Icon, label, value, sub, bg, ic }) => (
-          <div key={label} className={`${bg} rounded-2xl p-4 flex items-center gap-3`}>
+          <div key={label} className={`${bg} rounded-2xl p-3 flex items-center gap-2`}>
             <div className="w-10 h-10 rounded-xl bg-white/60 flex items-center justify-center flex-shrink-0">
               <Icon size={18} className={ic} />
             </div>

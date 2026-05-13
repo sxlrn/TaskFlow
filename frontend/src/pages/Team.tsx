@@ -325,11 +325,11 @@ function MemberCard({
 
   return (
     <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
-      <div className="flex items-start gap-4">
+      <div className="flex items-start gap-3 min-w-0">
         <Avatar user={member} size="lg" />
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 overflow-hidden">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-semibold text-gray-800 text-sm">{member.full_name}</span>
+            <span className="font-semibold text-gray-800 text-sm truncate max-w-[120px]">{member.full_name}</span>
             <RoleBadge role={member.role} />
             {isMe && (
               <span className="text-xs text-indigo-500 font-medium bg-indigo-50 px-2 py-0.5 rounded-full">Це ви</span>
@@ -456,7 +456,7 @@ export default function Team() {
         )}
       </div>
 
-      <div className="grid grid-cols-3 gap-3 mb-6">
+      <div className="grid grid-cols-3 gap-2 mb-6">
         <StatCard icon={<Shield   size={20} className="text-red-400"   />} bg="bg-red-50"   count={counts.admin}   label="Адмін"     />
         <StatCard icon={<Briefcase size={20} className="text-blue-400" />} bg="bg-blue-50"  count={counts.manager} label="Менеджер"  />
         <StatCard icon={<HardHat  size={20} className="text-green-500" />} bg="bg-green-50" count={counts.worker}  label="Працівник" />
