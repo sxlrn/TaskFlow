@@ -89,7 +89,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         )}
       </aside>
 
-      {/* Main — ключова зміна тут */}
       <div className="flex-1 flex flex-col min-h-screen w-full lg:pl-[248px]">
         <header className="sticky top-0 z-10 bg-[#f8f9fc]/80 backdrop-blur border-b border-slate-100 px-4 py-3.5 flex items-center justify-between">
           <button className="lg:hidden text-slate-500" onClick={() => setSidebarOpen(true)}>
