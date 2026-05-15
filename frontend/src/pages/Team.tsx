@@ -333,9 +333,9 @@ function MemberCard({
           <div className="flex items-center gap-1 mt-1 text-xs text-gray-400">
             <Mail size={11} /><span className="truncate">{member.email}</span>
           </div>
-          {member.department && (
+          {member.department && member.department !== 'NULL' && (
             <div className="flex items-center gap-1 mt-0.5 text-xs text-gray-400">
-              <LayoutGrid size={11} /><span>{member.department}</span>
+            <LayoutGrid size={11} /><span>{member.department}</span>
             </div>
           )}
         </div>
