@@ -58,7 +58,6 @@ function StatCard({ icon, bg, count, label }: { icon: React.ReactNode; bg: strin
   );
 }
 
-// ── Modal base ──────────────────────────────────────────────────────────────
 function Modal({ title, onClose, children }: { title: string; onClose: () => void; children: React.ReactNode }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
@@ -73,7 +72,6 @@ function Modal({ title, onClose, children }: { title: string; onClose: () => voi
   );
 }
 
-// ── Invite Modal ────────────────────────────────────────────────────────────
 function InviteModal({ onClose, onInvited }: { onClose: () => void; onInvited: () => void }) {
   const [email, setEmail] = useState('');
   const [fullName, setFullName] = useState('');
@@ -170,7 +168,6 @@ function InviteModal({ onClose, onInvited }: { onClose: () => void; onInvited: (
   );
 }
 
-// ── Change Role Modal ───────────────────────────────────────────────────────
 function ChangeRoleModal({
   member, onClose, onChanged,
 }: { member: TeamMember; onClose: () => void; onChanged: () => void }) {
@@ -247,7 +244,6 @@ function ChangeRoleModal({
   );
 }
 
-// ── Delete Confirm Modal ────────────────────────────────────────────────────
 function DeleteModal({
   member, onClose, onDeleted,
 }: { member: TeamMember; onClose: () => void; onDeleted: () => void }) {
@@ -300,7 +296,6 @@ function DeleteModal({
   );
 }
 
-// ── Member Card ─────────────────────────────────────────────────────────────
 function MemberCard({
   member, isMe, canManage,
   onChangeRole, onDelete,
@@ -396,7 +391,6 @@ function MemberCard({
   );
 }
 
-// ── Main ────────────────────────────────────────────────────────────────────
 type FilterRole = 'all' | Role;
 const FILTERS: { key: FilterRole; label: string }[] = [
   { key: 'all',     label: 'Всі'       },
@@ -412,9 +406,9 @@ export default function Team() {
   const [search, setSearch]         = useState('');
   const [filter, setFilter]         = useState<FilterRole>('all');
 
-  const [showInvite, setShowInvite]           = useState(false);
-  const [changeRoleTarget, setChangeRoleTarget] = useState<TeamMember | null>(null);
-  const [deleteTarget, setDeleteTarget]         = useState<TeamMember | null>(null);
+  const [showInvite, setShowInvite]               = useState(false);
+  const [changeRoleTarget, setChangeRoleTarget]   = useState<TeamMember | null>(null);
+  const [deleteTarget, setDeleteTarget]           = useState<TeamMember | null>(null);
 
   const fetchTeam = async () => {
     try {

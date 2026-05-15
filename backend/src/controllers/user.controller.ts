@@ -9,10 +9,39 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
       select: {
         id: true, email: true, full_name: true,
         role: true, avatar_color: true, department: true, created_at: true,
+        _count: { select: { assigned_tasks: true } },
       },
       orderBy: { created_at: 'desc' },
     });
-    res.json(users);
+
+    const usersWithCounts = await Promise.all(users.map(async (user) => {
+      const [active_tasks, completed_tasks] = await Promise.all([
+        prisma.task.count({
+          where: {
+            assignee_id: user.id,
+            status: { in: ['todo', 'in_progress', 'review', 'backlog'] },
+          },
+        }),
+        prisma.task.count({
+          where: {
+            assignee_id: user.id,
+            status: { in: ['done', 'cancelled'] },
+          },
+        }),
+      ]);
+
+      const { _count, ...rest } = user;
+      return {
+        ...rest,
+        _count: {
+          active_tasks,
+          completed_tasks,
+          total_tasks: _count.assigned_tasks,
+        },
+      };
+    }));
+
+    res.json(usersWithCounts);
   } catch {
     res.status(500).json({ error: 'Помилка сервера' });
   }
@@ -39,13 +68,11 @@ export const updateUser = async (req: AuthRequest, res: Response): Promise<void>
     const id = Number(req.params.id);
     const { full_name, avatar_color, department, role, password } = req.body;
 
-    // Тільки адмін може міняти роль
     if (role && req.user?.role !== 'admin') {
       res.status(403).json({ error: 'Недостатньо прав для зміни ролі' });
       return;
     }
 
-    // Можна редагувати тільки свій профіль або адмін будь-який
     if (req.user?.userId !== id && req.user?.role !== 'admin') {
       res.status(403).json({ error: 'Недостатньо прав' });
       return;
