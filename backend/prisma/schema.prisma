@@ -21,9 +21,12 @@ model User {
 
   assigned_tasks   Task[]        @relation("AssignedTasks")
   reported_tasks   Task[]        @relation("ReportedTasks")
+  reviewed_tasks   Task[]        @relation("ReviewedTasks")
+  tested_tasks     Task[]        @relation("TestedTasks")
   managed_projects Project[]
   refresh_tokens   RefreshToken[]
   auth_logs        AuthLog[]
+  comments         Comment[]
 }
 
 model Project {
@@ -47,10 +50,12 @@ model Task {
   id              Int        @id @default(autoincrement())
   title           String
   description     String?
+  type            TaskType   @default(standard)
   status          TaskStatus @default(backlog)
   priority        Priority   @default(medium)
   deadline        DateTime?
   estimated_hours Float?
+  actual_hours    Float?
   created_at      DateTime   @default(now())
   updated_at      DateTime   @updatedAt
 
@@ -60,8 +65,20 @@ model Task {
   assignee    User? @relation("AssignedTasks", fields: [assignee_id], references: [id])
   assignee_id Int?
 
+  reviewer    User? @relation("ReviewedTasks", fields: [reviewer_id], references: [id])
+  reviewer_id Int?
+
+  tester      User? @relation("TestedTasks", fields: [tester_id], references: [id])
+  tester_id   Int?
+
   reporter    User @relation("ReportedTasks", fields: [reporter_id], references: [id])
   reporter_id Int
+
+  parent_id   Int?
+  parent      Task?   @relation("SubTasks", fields: [parent_id], references: [id], onDelete: Cascade)
+  subtasks    Task[]  @relation("SubTasks")
+
+  comments    Comment[]
 }
 
 model RefreshToken {
@@ -96,10 +113,19 @@ enum ProjectStatus {
   archived
 }
 
+enum TaskType {
+  standard
+  research
+  testing
+  planning
+}
+
 enum TaskStatus {
   backlog
   todo
+  research
   in_progress
+  code_review
   review
   done
   cancelled
@@ -110,4 +136,17 @@ enum Priority {
   medium
   high
   critical
+}
+
+model Comment {
+  id         Int      @id @default(autoincrement())
+  content    String   @db.Text
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  task       Task     @relation(fields: [task_id], references: [id], onDelete: Cascade)
+  task_id    Int
+
+  author     User     @relation(fields: [author_id], references: [id])
+  author_id  Int
 }

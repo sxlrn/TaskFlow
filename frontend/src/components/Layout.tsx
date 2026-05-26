@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, FolderKanban, CheckSquare, Users, LogOut, Menu, ChevronRight, Bell } from 'lucide-react';
+import { LayoutDashboard, FolderKanban, CheckSquare, Users, LogOut, Menu, ChevronRight, User as UserIcon } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const navItems = [
@@ -8,6 +8,7 @@ const navItems = [
   { label: 'Проєкти', icon: FolderKanban, path: '/projects' },
   { label: 'Задачі', icon: CheckSquare, path: '/tasks' },
   { label: 'Команда', icon: Users, path: '/team' },
+  { label: 'Профіль', icon: UserIcon, path: '/profile' },
 ];
 
 const roleLabel: Record<string, string> = { admin: 'Адмін', manager: 'Менеджер', worker: 'Працівник' };
@@ -90,14 +91,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </aside>
 
       <div className="flex-1 flex flex-col min-h-screen w-full lg:pl-[248px]">
-        <header className="sticky top-0 z-10 bg-[#f8f9fc]/80 backdrop-blur border-b border-slate-100 px-4 py-3.5 flex items-center justify-between">
+        <header className="sticky top-0 z-10 bg-[#f8f9fc]/80 backdrop-blur border-b border-slate-100 px-4 py-3.5 flex items-center gap-4">
           <button className="lg:hidden text-slate-500" onClick={() => setSidebarOpen(true)}>
             <Menu size={20} />
           </button>
           <h1 className="text-[15px] font-semibold text-slate-800">{currentLabel}</h1>
-          <button className="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 transition">
-            <Bell size={15} />
-          </button>
         </header>
 
         <main className="flex-1 px-3 sm:px-6 py-6 page-fade">

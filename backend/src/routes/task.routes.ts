@@ -23,7 +23,7 @@ const router = Router();
  *         name: status
  *         schema:
  *           type: string
- *           enum: [backlog, todo, in_progress, review, done, cancelled]
+ *           enum: [backlog, todo, in_progress, code_review, review, done, cancelled]
  *       - in: query
  *         name: priority
  *         schema:
@@ -77,9 +77,12 @@ router.get('/:id', authenticate, getTask);
  *                 type: integer
  *               assignee_id:
  *                 type: integer
+ *               type:
+ *                 type: string
+ *                 enum: [standard, research, testing, planning]
  *               status:
  *                 type: string
- *                 enum: [backlog, todo, in_progress, review, done, cancelled]
+ *                 enum: [backlog, todo, in_progress, code_review, review, done, cancelled]
  *               priority:
  *                 type: string
  *                 enum: [low, medium, high, critical]
@@ -88,6 +91,12 @@ router.get('/:id', authenticate, getTask);
  *                 format: date
  *               estimated_hours:
  *                 type: number
+ *               actual_hours:
+ *                 type: number
+ *               reviewer_id:
+ *                 type: integer
+ *               tester_id:
+ *                 type: integer
  *     responses:
  *       201:
  *         description: Задачу створено
