@@ -61,12 +61,19 @@ export default function Profile() {
     e.preventDefault();
     setMessage(null);
 
-    if (!fullName.trim()) {
+    const trimmedFullName = fullName.trim();
+    const trimmedDepartment = department.trim();
+
+    if (!trimmedFullName) {
       setMessage({ type: 'error', text: "Ім'я не може бути порожнім" });
       return;
     }
 
     if (password) {
+      if (password.includes(' ')) {
+        setMessage({ type: 'error', text: 'Пароль не може містити пробіли' });
+        return;
+      }
       if (password.length < 6) {
         setMessage({ type: 'error', text: 'Пароль має бути не менше 6 символів' });
         return;
@@ -78,8 +85,8 @@ export default function Profile() {
     }
 
     const payload: any = {
-      full_name: fullName,
-      department: department,
+      full_name: trimmedFullName,
+      department: trimmedDepartment,
       avatar_color: avatarColor,
     };
 

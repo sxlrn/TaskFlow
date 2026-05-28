@@ -124,7 +124,7 @@ async function main() {
       department: 'DevOps & Хмари',
     },
   ];
- 
+
   const users: any[] = [];
   for (const u of usersData) {
     const user = await prisma.user.create({
@@ -140,7 +140,7 @@ async function main() {
     users.push(user);
     console.log(`👤 Користувач створений: ${user.full_name} (${user.role})`);
   }
- 
+
   const admin = users.find(u => u.role === 'admin');
   const mgr1 = users.find(u => u.email === 'm.shevchenko@taskflow.ua');
   const mgr2 = users.find(u => u.email === 'o.bondar@taskflow.ua');
@@ -197,7 +197,7 @@ async function main() {
     },
     {
       title: 'Впровадження AI-асистента підтримки',
-      description: 'Дослідження та інтеграція мовної моделі для автоматизації відповідей на першу лінію підтримки користувачів.',
+      description: 'Дослідження та інтеграція мовної модели для автоматизації відповідей на першу лінію підтримки користувачів.',
       status: 'active' as const,
       priority: 'medium' as const,
       color: '#8b5cf6',
@@ -242,7 +242,7 @@ async function main() {
     },
     {
       title: 'Аудит кібербезпеки порталу',
-      description: 'Пошук вразливостей (SQL-ін\'єкції, XSS, CSRF), перевірка шифрування даних та налаштування політик доступу.',
+      description: 'Пошук вразливостей (SQL-ін\'єкції, XSS, CSRF), перевірка шифрування даних та налаштування політики доступу.',
       status: 'active' as const,
       priority: 'critical' as const,
       color: '#ef4444',
@@ -575,7 +575,7 @@ async function main() {
   const taskAWSDocker = await prisma.task.create({
     data: {
       title: 'Написання Dockerfile для Node.js бекенду',
-      description: 'Створити оптимізований multi-stage Dockerfile для зменшення розміру підсумкового образу.',
+      description: 'Створити оновлений multi-stage Dockerfile для зменшення розміру підсумкового образу.',
       type: 'standard',
       status: 'todo',
       priority: 'high',
@@ -1007,7 +1007,7 @@ async function main() {
       priority: 'high',
       deadline: new Date('2026-05-22'),
       estimated_hours: 6,
-      actual_hours: 4, // Exceeds expectation in a good way
+      actual_hours: 4,
       project_id: prjLiqPay.id,
       assignee_id: mgr2.id,
       reporter_id: admin.id,
@@ -1030,8 +1030,225 @@ async function main() {
   });
 
   const taskAIPlanning = await prisma.task.create({
-    data  console.log('🌱 Створення підзадач для усіх задач...');
-  
+    data: {
+      title: 'Розробка плану впровадження AI-асистента (До виконання)',
+      description: 'Скласти детальний план розробки та інтеграції AI-асистента в систему підтримки користувачів.',
+      type: 'planning',
+      status: 'todo',
+      priority: 'medium',
+      deadline: new Date('2026-07-10'),
+      estimated_hours: 8,
+      project_id: prjAI.id,
+      assignee_id: workerFE.id,
+      reporter_id: admin.id,
+    },
+  });
+
+  const taskAWSPlanning = await prisma.task.create({
+    data: {
+      title: 'Планування бюджету та етапів міграції в AWS (Виконано)',
+      description: 'Розрахувати очікуваний бюджет на хмару AWS та скласти план етапів міграції інфраструктури.',
+      type: 'planning',
+      status: 'done',
+      priority: 'high',
+      deadline: new Date('2026-06-15'),
+      estimated_hours: 6,
+      actual_hours: 6,
+      project_id: prjAWS.id,
+      assignee_id: workerDevOps.id,
+      reporter_id: admin.id,
+    },
+  });
+
+  console.log('👑 Створення завдань Адміністратора (adminTask1 - adminTask12)...');
+
+  const adminTask1 = await prisma.task.create({
+    data: {
+      title: 'Аналітичний звіт та аудит фінансів ІТ (В роботі)',
+      description: 'Проведення повного фінансового аудиту ІТ-департаменту за останній рік та планування бюджету.',
+      type: 'planning',
+      status: 'in_progress',
+      priority: 'high',
+      deadline: new Date('2026-06-10'),
+      estimated_hours: 12,
+      project_id: prjBI.id,
+      assignee_id: mgr1.id,
+      reporter_id: admin.id,
+    },
+  });
+
+  const adminTask2 = await prisma.task.create({
+    data: {
+      title: 'Планування та аналіз міграції інфраструктури в AWS (В роботі)',
+      description: 'Розрахунок вартості сервісів AWS, аналіз ризиків та підготовка інфраструктури сховища.',
+      type: 'planning',
+      status: 'in_progress',
+      priority: 'critical',
+      deadline: new Date('2026-06-15'),
+      estimated_hours: 10,
+      project_id: prjAWS.id,
+      assignee_id: workerDevOps.id,
+      reporter_id: admin.id,
+    },
+  });
+
+  const adminTask3 = await prisma.task.create({
+    data: {
+      title: 'Створення плану навчання співробітників (Виконано)',
+      description: 'Підготувати навчальні матеріали для переходу команди на нову дизайн-систему.',
+      type: 'planning',
+      status: 'done',
+      priority: 'medium',
+      deadline: new Date('2026-05-10'),
+      estimated_hours: 4,
+      actual_hours: 4,
+      project_id: prjUI.id,
+      assignee_id: workerDesign.id,
+      reporter_id: admin.id,
+    },
+  });
+
+  const adminTask4 = await prisma.task.create({
+    data: {
+      title: 'Планування релізу мобільного банкінгу v1.2 (До виконання)',
+      description: 'Узгодження дати релізу, підготовка реліз-нотаток та проходження рев\'ю в AppStore.',
+      type: 'planning',
+      status: 'todo',
+      priority: 'high',
+      deadline: new Date('2026-06-05'),
+      estimated_hours: 6,
+      project_id: prjMobile.id,
+      assignee_id: mgr1.id,
+      reporter_id: admin.id,
+    },
+  });
+
+  const adminTask5 = await prisma.task.create({
+    data: {
+      title: 'Аудит безпеки авторизації та сесій (В роботі)',
+      description: 'Аналіз ризиків зберігання токенів, ротація JWT-токенів та тестування на проникнення.',
+      type: 'testing',
+      status: 'in_progress',
+      priority: 'critical',
+      deadline: new Date('2026-06-10'),
+      estimated_hours: 14,
+      project_id: prjSec.id,
+      assignee_id: workerBE.id,
+      reporter_id: admin.id,
+    },
+  });
+
+  const adminTask6 = await prisma.task.create({
+    data: {
+      title: 'Оптимізація бази даних та реплікація CRM (В роботі)',
+      description: 'Налаштування Read Replica для CRM системи для зниження навантаження на мастер-БД.',
+      type: 'standard',
+      status: 'in_progress',
+      priority: 'high',
+      deadline: new Date('2026-06-25'),
+      estimated_hours: 16,
+      project_id: prjCRM.id,
+      assignee_id: workerBE2.id,
+      reporter_id: admin.id,
+    },
+  });
+
+  const adminTask7 = await prisma.task.create({
+    data: {
+      title: 'Розробка кабінету користувача та профілю (В роботі)',
+      description: 'Реалізація зміни теми (Dark/Light), оновлення аватара та безпечної зміни пароля.',
+      type: 'standard',
+      status: 'in_progress',
+      priority: 'medium',
+      deadline: new Date('2026-06-15'),
+      estimated_hours: 12,
+      project_id: prjPortal.id,
+      assignee_id: workerFE.id,
+      reporter_id: admin.id,
+    },
+  });
+
+  const adminTask8 = await prisma.task.create({
+    data: {
+      title: 'Інтеграція системи лояльності (Виконано)',
+      description: 'Розробка та підключення модуля нарахування балів за активні транзакції.',
+      type: 'standard',
+      status: 'done',
+      priority: 'low',
+      deadline: new Date('2026-04-30'),
+      estimated_hours: 8,
+      actual_hours: 8,
+      project_id: prjMobile.id,
+      assignee_id: workerFE2.id,
+      reporter_id: admin.id,
+    },
+  });
+
+  const adminTask9 = await prisma.task.create({
+    data: {
+      title: 'Налаштування моніторингу помилок Sentry (До виконання)',
+      description: 'Інтеграція Sentry SDK для фронтенду та бекенду для реалтайм відстеження збоїв.',
+      type: 'standard',
+      status: 'todo',
+      priority: 'high',
+      deadline: new Date('2026-06-20'),
+      estimated_hours: 6,
+      project_id: prjPortal.id,
+      assignee_id: workerDevOps2.id,
+      reporter_id: admin.id,
+    },
+  });
+
+  const adminTask10 = await prisma.task.create({
+    data: {
+      title: 'Створення резервних копій бази даних (Виконано)',
+      description: 'Налаштування щоденного бекапу бази даних MySQL у захищене сховище AWS S3.',
+      type: 'standard',
+      status: 'done',
+      priority: 'critical',
+      deadline: new Date('2026-05-12'),
+      estimated_hours: 4,
+      actual_hours: 4,
+      project_id: prjAWS.id,
+      assignee_id: workerDevOps.id,
+      reporter_id: admin.id,
+    },
+  });
+
+  const adminTask11 = await prisma.task.create({
+    data: {
+      title: 'Підготовка звіту про покриття коду тестами (Виконано)',
+      description: 'Аналіз покриття коду тестами (Jest, Vitest) та написання додаткових юніт-тестів.',
+      type: 'testing',
+      status: 'done',
+      priority: 'medium',
+      deadline: new Date('2026-05-10'),
+      estimated_hours: 4,
+      actual_hours: 4,
+      project_id: prjPortal.id,
+      assignee_id: admin.id,
+      reporter_id: mgr1.id,
+    },
+  });
+
+  const adminTask12 = await prisma.task.create({
+    data: {
+      title: 'Аналіз фреймворків для мобільної розробки (Виконано)',
+      description: 'Порівняльний аналіз React Native та Flutter для розробки нового банкінг додатку.',
+      type: 'research',
+      status: 'done',
+      priority: 'medium',
+      deadline: new Date('2026-05-15'),
+      estimated_hours: 8,
+      actual_hours: 6,
+      project_id: prjMobile.id,
+      assignee_id: admin.id,
+      reporter_id: mgr1.id,
+    },
+  });
+
+  console.log('🌱 Створення підзадач для задач Адміністратора...');
+
   // 1. Subtasks for adminTask1
   await prisma.task.create({
     data: {
@@ -1154,255 +1371,7 @@ async function main() {
     },
   });
 
-  // 4. Subtasks for taskPortalDesign
-  await prisma.task.create({
-    data: {
-      title: 'Збір відгуків та погодження макетів з менеджером',
-      description: 'Організувати демо-презентацію Figma-файлів для Марії Шевченко та зафіксувати коригування.',
-      type: 'standard',
-      status: 'done',
-      priority: 'medium',
-      deadline: new Date('2026-06-05'),
-      estimated_hours: 4,
-      actual_hours: 4,
-      project_id: prjPortal.id,
-      assignee_id: workerDesign.id,
-      reporter_id: mgr1.id,
-      parent_id: taskPortalDesign.id,
-    },
-  });
-
-  await prisma.task.create({
-    data: {
-      title: 'Експорт іконок та підготовка UI-Kit асетів',
-      description: 'Експортувати всі SVG-іконки, логотипи та шрифти, оновлюючи Figma UI kit.',
-      type: 'standard',
-      status: 'done',
-      priority: 'low',
-      deadline: new Date('2026-06-08'),
-      estimated_hours: 3,
-      actual_hours: 3,
-      project_id: prjPortal.id,
-      assignee_id: workerDesign.id,
-      reporter_id: mgr1.id,
-      parent_id: taskPortalDesign.id,
-    },
-  });
-
-  // 5. Subtasks for taskPortalNav
-  await prisma.task.create({
-    data: {
-      title: 'Дослідження кращих UX паттернів для мобільних меню',
-      description: 'Підібрати 5 успішних прикладів навігації у схожих корпоративних веб-сервісах.',
-      type: 'standard',
-      status: 'done',
-      priority: 'low',
-      deadline: new Date('2026-06-18'),
-      estimated_hours: 2,
-      actual_hours: 2,
-      project_id: prjPortal.id,
-      assignee_id: workerFE.id,
-      reporter_id: mgr1.id,
-      parent_id: taskPortalNav.id,
-    },
-  });
-
-  await prisma.task.create({
-    data: {
-      title: 'Верстка бічного меню-гамбургера з анімацією Tailwind',
-      description: 'Створити плавне висувне меню з використанням стандартних класів Tailwind CSS.',
-      type: 'standard',
-      status: 'todo',
-      priority: 'medium',
-      deadline: new Date('2026-06-25'),
-      estimated_hours: 4,
-      project_id: prjPortal.id,
-      assignee_id: workerFE.id,
-      reporter_id: mgr1.id,
-      parent_id: taskPortalNav.id,
-    },
-  });
-
-  // 6. Subtasks for taskCRMIndex
-  await prisma.task.create({
-    data: {
-      title: 'Виявлення повільних запитів через Slow Query Log',
-      description: 'Увімкнути тимчасово slow query log на сервері розробки та виокремити top-10 проблемних запитів.',
-      type: 'standard',
-      status: 'done',
-      priority: 'high',
-      deadline: new Date('2026-06-28'),
-      estimated_hours: 3,
-      actual_hours: 3,
-      project_id: prjCRM.id,
-      assignee_id: workerBE.id,
-      reporter_id: mgr2.id,
-      parent_id: taskCRMIndex.id,
-    },
-  });
-
-  // 7. Subtasks for taskAIOpenAI
-  await prisma.task.create({
-    data: {
-      title: 'Аналіз ціноутворення GPT-4o та Claude 3.5 Sonnet',
-      description: 'Скласти порівняльну таблицю вартості 1 млн токенів input/output для обох сервісів.',
-      type: 'research',
-      status: 'done',
-      priority: 'low',
-      deadline: new Date('2026-07-05'),
-      estimated_hours: 4,
-      actual_hours: 4,
-      project_id: prjAI.id,
-      assignee_id: workerFE.id,
-      reporter_id: mgr1.id,
-      parent_id: taskAIOpenAI.id,
-    },
-  });
-
-  // 8. Subtasks for taskUIButtons
-  await prisma.task.create({
-    data: {
-      title: 'Створення варіантів кнопок (Primary, Secondary, Danger, Outline)',
-      description: 'Написати гнучкі стилі Tailwind для кнопок, що підтримують теми та додаткові іконки.',
-      type: 'standard',
-      status: 'done',
-      priority: 'high',
-      deadline: new Date('2026-04-05'),
-      estimated_hours: 8,
-      actual_hours: 8,
-      project_id: prjUI.id,
-      assignee_id: workerDesign.id,
-      reporter_id: mgr1.id,
-      parent_id: taskUIButtons.id,
-    },
-  });
-
-  // 9. Subtasks for taskAWSDocker
-  await prisma.task.create({
-    data: {
-      title: 'Використання multi-stage build для зменшення ваги Node-образу',
-      description: 'Поділити Dockerfile на етапи збірки (build) та запуску (runner), вилучити devDependencies.',
-      type: 'standard',
-      status: 'todo',
-      priority: 'high',
-      deadline: new Date('2026-07-28'),
-      estimated_hours: 3,
-      project_id: prjAWS.id,
-      assignee_id: workerDevOps.id,
-      reporter_id: mgr2.id,
-      parent_id: taskAWSDocker.id,
-    },
-  });
-
-  // 10. Subtasks for taskQAAuthTest
-  await prisma.task.create({
-    data: {
-      title: 'Розробка тестових сценаріїв для позитивного входу (Happy Path)',
-      description: 'Підготувати таблицю валідних комбінацій логінів/паролів та очікуваних відповідей сервера.',
-      type: 'standard',
-      status: 'done',
-      priority: 'medium',
-      deadline: new Date('2026-07-20'),
-      estimated_hours: 4,
-      actual_hours: 4,
-      project_id: prjQA.id,
-      assignee_id: workerQA.id,
-      reporter_id: mgr1.id,
-      parent_id: taskQAAuthTest.id,
-    },
-  });
-
-  // 11. Subtasks for taskBIDAUMAU
-  await prisma.task.create({
-    data: {
-      title: 'Створення SQL запитів для агрегації щоденної активності',
-      description: 'Скласти оптимізований запит, який рахує кількість унікальних користувачів за кожну добу.',
-      type: 'standard',
-      status: 'in_progress',
-      priority: 'medium',
-      deadline: new Date('2026-07-12'),
-      estimated_hours: 6,
-      actual_hours: 4,
-      project_id: prjBI.id,
-      assignee_id: workerBE.id,
-      reporter_id: mgr2.id,
-      parent_id: taskBIDAUMAU.id,
-    },
-  });
-
-  // 12. Subtasks for taskMobileSubtaskTree
-  await prisma.task.create({
-    data: {
-      title: 'Створення рекурсивного UI-компонента відображення гілок',
-      description: 'Реалізувати рекурсивний виклик React-компонента для візуалізації вкладених рівнів задач.',
-      type: 'standard',
-      status: 'done',
-      priority: 'high',
-      deadline: new Date('2026-05-20'),
-      estimated_hours: 8,
-      actual_hours: 8,
-      project_id: prjMobile.id,
-      assignee_id: workerFE.id,
-      reporter_id: mgr1.id,
-      parent_id: taskMobileSubtaskTree.id,
-    },
-  });
-
-  // 13. Subtasks for taskAILlama3
-  await prisma.task.create({
-    data: {
-      title: 'Налаштування локального сервера Ollama',
-      description: 'Завантажити та запустити Ollama на тестовій машині з відеокартою RTX 4090.',
-      type: 'research',
-      status: 'done',
-      priority: 'high',
-      deadline: new Date('2026-06-15'),
-      estimated_hours: 6,
-      actual_hours: 6,
-      project_id: prjAI.id,
-      assignee_id: workerBE3.id,
-      reporter_id: mgr1.id,
-      parent_id: taskAILlama3.id,
-    },
-  });
-
-  // 14. Subtasks for taskLiqPayPlaywright
-  await prisma.task.create({
-    data: {
-      title: 'Підключення бібліотеки Playwright-test',
-      description: 'Встановити залежності, налаштувати конфіг-файл та перевірити роботу локальних браузерів.',
-      type: 'testing',
-      status: 'done',
-      priority: 'medium',
-      deadline: new Date('2026-06-08'),
-      estimated_hours: 4,
-      actual_hours: 4,
-      project_id: prjLiqPay.id,
-      assignee_id: workerQA.id,
-      reporter_id: mgr2.id,
-      parent_id: taskLiqPayPlaywright.id,
-    },
-  });
-
-  // 15. Subtasks for taskCRMLoad
-  await prisma.task.create({
-    data: {
-      title: 'Написання k6 тестового сценарію у форматі JS',
-      description: 'Запрограмувати поступовий приріст віртуальних користувачів (ramping-up) від 0 до 500.',
-      type: 'testing',
-      status: 'done',
-      priority: 'high',
-      deadline: new Date('2026-05-20'),
-      estimated_hours: 6,
-      actual_hours: 6,
-      project_id: prjCRM.id,
-      assignee_id: workerQA2.id,
-      reporter_id: mgr2.id,
-      parent_id: taskCRMLoad.id,
-    },
-  });
-
-  console.log('💬 Створення величезної кількості коментарів для обговорення задач...');
+  console.log('💬 Створення коментарів для усіх завдань...');
   const commentsData = [
     // Comments for task1 (Apple Pay)
     { task_id: task1.id, author_id: workerFE.id, content: 'Я почала вивчати офіційну документацію Apple Pay. Виявилося, що для тестування нам обов\'язково потрібен сертифікат розробника Apple Developer Account. Маріє, чи можемо ми отримати доступи?' },
@@ -1456,7 +1425,7 @@ async function main() {
 
     // Comments for taskUIButtons
     { task_id: taskUIButtons.id, author_id: workerDesign.id, content: 'Додав анімації для натискання кнопок. Використав легкий scale-effect (transform active:scale-95).' },
-    { task_id: taskUIButtons.id, author_id: workerFE.id, content: 'Дуже приємний тактильний ефект на мобільних пристроях, супер!' },
+    { task_id: taskUIButtons.id, author_id: workerFE.id, content: 'Дякую, Олено! Дуже приємний тактильний ефект на мобільних пристроях, супер!' },
 
     // Comments for taskUIStorybook
     { task_id: taskUIStorybook.id, author_id: workerDesign.id, content: 'Всі кольорові токени задокументовані. Додав інтерактивну колірну палітру в Storybook з можливістю копіювання HEX коду.' },
@@ -1583,270 +1552,7 @@ async function main() {
 
     // Comments for adminTask7
     { task_id: adminTask7.id, author_id: workerFE.id, content: 'Макет профілю повністю зверстаний. Додала можливість вибору теми та зміни аватару. Залишилося підключити оновлення паролю.' },
-    { task_id: adminTask7.id, author_id: admin.id, content: 'Дуже гарна верстка, Олено! Давай додамо перевірку складності паролю на фронтенді (мінімум 8 символів, велика літера та спецсимвол).' },
-  ];
-
-  for (const c of commentsData) {
-    await prisma.comment.create({
-      data: c,
-    });
-  }
-
-  console.log('✅ Коментарі додано.');05-10'),
-      estimated_hours: 4,
-      actual_hours: 4,
-      project_id: prjPortal.id,
-      assignee_id: admin.id,
-      reporter_id: mgr1.id,
-    },
-  });
-
-  const adminTask12 = await prisma.task.create({
-    data: {
-      title: 'Аналіз фреймворків для мобільної розробки',
-      description: 'Порівняльний аналіз React Native та Flutter для розробки нового банкінг додатку.',
-      type: 'research',
-      status: 'done',
-      priority: 'medium',
-      deadline: new Date('2026-05-15'),
-      estimated_hours: 8,
-      actual_hours: 6,
-      project_id: prjMobile.id,
-      assignee_id: admin.id,
-      reporter_id: mgr1.id,
-    },
-  });
-
-  console.log('🌱 Створення підзадач для задач Адміністратора...');
-  await prisma.task.create({
-    data: {
-      title: 'Аудит витрат ІТ-департаменту',
-      description: 'Детальний аналіз витрат на сервери, ПЗ та ліцензії розробників за останній рік.',
-      type: 'standard',
-      status: 'done',
-      priority: 'high',
-      deadline: new Date('2026-05-15'),
-      estimated_hours: 8,
-      actual_hours: 8,
-      project_id: prjBI.id,
-      assignee_id: workerBE.id,
-      reporter_id: admin.id,
-      parent_id: adminTask1.id,
-    },
-  });
-
-  await prisma.task.create({
-    data: {
-      title: 'Узгодження бюджету на маркетинг',
-      description: 'Провести зустріч із відділом маркетингу та узгодити витрати на рекламу в соціальних мережах.',
-      type: 'standard',
-      status: 'in_progress',
-      priority: 'medium',
-      deadline: new Date('2026-06-08'),
-      estimated_hours: 6,
-      actual_hours: 2,
-      project_id: prjBI.id,
-      assignee_id: mgr1.id,
-      reporter_id: admin.id,
-      parent_id: adminTask1.id,
-    },
-  });
-
-  await prisma.task.create({
-    data: {
-      title: 'Підготовка фінансового звіту в Excel',
-      description: 'Зібрати всі дані про доходи та витрати компанії в єдину зведену таблицю.',
-      type: 'standard',
-      status: 'done',
-      priority: 'low',
-      deadline: new Date('2026-05-20'),
-      estimated_hours: 4,
-      actual_hours: 3,
-      project_id: prjBI.id,
-      assignee_id: mgr3.id,
-      reporter_id: admin.id,
-      parent_id: adminTask1.id,
-    },
-  });
-
-  await prisma.task.create({
-    data: {
-      title: 'Оцінка вартості сервісів AWS (TCO Analysis)',
-      description: 'Розрахувати витрати на інфраструктуру AWS та порівняти їх із поточними витратами на локальні сервери.',
-      type: 'research',
-      status: 'done',
-      priority: 'high',
-      deadline: new Date('2026-05-25'),
-      estimated_hours: 6,
-      actual_hours: 6,
-      project_id: prjAWS.id,
-      assignee_id: workerDevOps.id,
-      reporter_id: admin.id,
-      parent_id: adminTask2.id,
-    },
-  });
-
-  await prisma.task.create({
-    data: {
-      title: 'Аудит безпеки хмарного сховища S3',
-      description: 'Перевірити політики доступу (Bucket Policies) та увімкнути шифрування даних на рівні сховища.',
-      type: 'standard',
-      status: 'in_progress',
-      priority: 'critical',
-      deadline: new Date('2026-06-02'),
-      estimated_hours: 4,
-      actual_hours: 2,
-      project_id: prjAWS.id,
-      assignee_id: workerDevOps2.id,
-      reporter_id: admin.id,
-      parent_id: adminTask2.id,
-    },
-  });
-
-  await prisma.task.create({
-    data: {
-      title: 'Аналіз механізму ротації рефреш-токенів',
-      description: 'Дослідити найкращі практики безпечного оновлення JWT токенів та запобігання повторному використанню.',
-      type: 'research',
-      status: 'done',
-      priority: 'high',
-      deadline: new Date('2026-05-18'),
-      estimated_hours: 4,
-      actual_hours: 4,
-      project_id: prjSec.id,
-      assignee_id: workerBE.id,
-      reporter_id: admin.id,
-      parent_id: adminTask5.id,
-    },
-  });
-
-  await prisma.task.create({
-    data: {
-      title: 'Тестування вразливості до CSRF/XSS атак',
-      description: 'Перевірити форми введення даних на наявність XSS-вразливостей та переконатися в наявності CSRF-захисту.',
-      type: 'testing',
-      status: 'todo',
-      priority: 'critical',
-      deadline: new Date('2026-06-05'),
-      estimated_hours: 6,
-      actual_hours: 0,
-      project_id: prjSec.id,
-      assignee_id: workerQA.id,
-      reporter_id: admin.id,
-      parent_id: adminTask5.id,
-    },
-  });
-
-  console.log('💬 Створення додаткових коментарів для задач Адміністратора...');
-  await prisma.comment.createMany({
-    data: [
-      {
-        task_id: adminTask1.id,
-        author_id: mgr1.id,
-        content: 'Звіт по маркетингу готовий, завантажила на спільний диск. Будь ласка, перегляньте фінальні цифри.',
-      },
-      {
-        task_id: adminTask1.id,
-        author_id: admin.id,
-        content: 'Дякую, Маріє. Цифри виглядають цілком адекватно. Треба ще обов\'язково додати витрати на ліцензії Jira/Confluence та GitHub Enterprise.',
-      },
-      {
-        task_id: adminTask1.id,
-        author_id: mgr1.id,
-        content: 'Зрозуміла, внесу ці витрати в таблицю сьогодні до кінця дня.',
-      },
-      {
-        task_id: adminTask5.id,
-        author_id: workerBE.id,
-        content: 'Я провів рев\'ю коду авторизації. Виявилося, що рефреш-токени зберігалися в LocalStorage замість безпечних HttpOnly cookies. Вже переписав логіку.',
-      },
-      {
-        task_id: adminTask5.id,
-        author_id: workerQA.id,
-        content: 'Чудово, Сергію! Я перевірю цю вразливість сьогодні на стейджинг-сервері під час E2E тестів.',
-      },
-      {
-        task_id: adminTask5.id,
-        author_id: admin.id,
-        content: 'Надзвичайно критичний баг, дякую за швидке реагування, колеги. Зберігання в LocalStorage дійсно створювало ризик XSS витоку. Чекаю фінального підтвердження від QA.',
-      },
-      {
-        task_id: adminTask6.id,
-        author_id: workerBE2.id,
-        content: 'Сергію, у нас пікове навантаження на базу щодня о 12:00. Потрібно налаштувати реплікацію (Read Replica) для генерації важких аналітичних звітів.',
-      },
-      {
-        task_id: adminTask6.id,
-        author_id: admin.id,
-        content: 'Згоден, це розвантажить основну мастер-базу та суттєво прискорить CRM. Сергію, допоможи Дмитру з налаштуванням індексів у міграціях.',
-      },
-      {
-        task_id: adminTask6.id,
-        author_id: workerBE.id,
-        content: 'Вже працюємо над цим. Створили Read-Only підключення в Prisma Client, зараз тестуємо локально.',
-      },
-      {
-        task_id: adminTask7.id,
-        author_id: workerFE.id,
-        content: 'Макет профілю повністю зверстаний. Додала можливість вибору теми та зміни аватару. Залишилося підключити оновлення паролю.',
-      },
-      {
-        task_id: adminTask7.id,
-        author_id: admin.id,
-        content: 'Дуже гарна верстка, Олено! Давай додамо перевірку складності паролю на фронтенді (мінімум 8 символів, велика літера та спецсимвол).',
-      },
-    ]
-  });
-
-  console.log('✅ Усі задачі успішно створено.');
-
-  console.log('💬 Створення коментарів...');
-  const commentsData = [
-    {
-      task_id: task1.id,
-      author_id: workerFE.id,
-      content: 'Я почала вивчати офіційну документацію Apple Pay. Виявилося, що для тестування нам обов\'язково потрібен сертифікат розробника Apple Developer Account. Маріє, чи можемо ми отримати доступи?',
-    },
-    {
-      task_id: task1.id,
-      author_id: mgr1.id,
-      content: 'Олено, так, звичайно! Я сьогодні ж надішлю запит у системний відділ, щоб тобі створили акаунт розробника та підключили до нашої команди.',
-    },
-    {
-      task_id: task2.id,
-      author_id: workerDesign.id,
-      content: 'Макет FaceID готовий і завантажений у Figma в розділ компоненти. Можна брати в роботу.',
-    },
-    {
-      task_id: task2.id,
-      author_id: workerFE.id,
-      content: 'Дякую, Василю! Дизайн виглядає чудово, вже верстаю екран. Анімація сканування буде плавною.',
-    },
-    {
-      task_id: task3.id,
-      author_id: workerQA.id,
-      content: 'Знайшла баг при переказі на суму більше 50 000 грн. Запит падає з помилкою 500 замість інформативного повідомлення про ліміти.',
-    },
-    {
-      task_id: task3.id,
-      author_id: workerBE.id,
-      content: 'Ой, це моя провина. Я не додав перевірку лімітів на рівні валідатора DTO. Вже виправляю, за півгодини оновлю на стейджингу.',
-    },
-    {
-      task_id: task4.id,
-      author_id: workerBE.id,
-      content: 'Вивчив схему рекурентних платежів LiqPay. Для цього потрібно використовувати токен картки (card token), який генерується при першій успішній оплаті. Документація цілком зрозуміла.',
-    },
-    {
-      task_id: task5.id,
-      author_id: mgr2.id,
-      content: 'Сергію, чудова робота! Зверни увагу на безпеку обробки сигнетур (signature) у вебхуку, щоб зловмисники не могли підробити запит про оплату.',
-    },
-    {
-      task_id: task7.id,
-      author_id: workerBE.id,
-      content: 'Ого, запит на отримання історії замовлень клієнта робив повне сканування таблиці (Full Table Scan) через відсутність індексу на customer_id. Додавання індексу прискорить цей запит у 150 разів!',
-    },
+    { task_id: adminTask7.id, author_id: admin.id, content: 'Дуже гарна верстка, Олено! Давай додамо перевірку складності паролю на фронтенді (мінімум 8 символів, велика літера та спецсимвол).' }
   ];
 
   for (const c of commentsData) {
@@ -1856,7 +1562,6 @@ async function main() {
   }
 
   console.log('✅ Коментарі додано.');
-
   console.log('🎉 БАЗУ ДАНИХ УСПІШНО ЗАПОВНЕНО РЕАЛІСТИЧНИМИ ДАНИМИ!');
 }
 

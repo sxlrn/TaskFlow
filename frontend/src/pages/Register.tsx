@@ -65,14 +65,28 @@ export default function Register() {
   }, []);
 
   const handleSubmit = async () => {
-    if (!form.email || !form.password || !form.full_name) {
+    const trimmedEmail = form.email.trim();
+    const trimmedFullName = form.full_name.trim();
+    if (!trimmedEmail || !form.password || !trimmedFullName) {
       setError('Заповніть всі поля');
+      return;
+    }
+    if (/[\p{Extended_Pictographic}]/u.test(trimmedEmail)) {
+      setError('Email не може містити емодзі');
+      return;
+    }
+    if (form.password.includes(' ')) {
+      setError('Пароль не може містити пробіли');
       return;
     }
     setLoading(true);
     setError('');
     try {
-      await api.post('/auth/register', form);
+      await api.post('/auth/register', {
+        email: trimmedEmail,
+        full_name: trimmedFullName,
+        password: form.password,
+      });
       navigate('/login');
     } catch (e: any) {
       setError(e.response?.data?.error || 'Помилка реєстрації');

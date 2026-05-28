@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, FolderKanban, CheckSquare, Users, LogOut, Menu, ChevronRight, User as UserIcon } from 'lucide-react';
+import { LayoutDashboard, FolderKanban, CheckSquare, Users, LogOut, Menu, ChevronRight, User as UserIcon, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const navItems = [
@@ -19,6 +19,24 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('theme') || 'light';
+  });
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
+  };
 
   const handleLogout = async () => {
     await logout();
@@ -40,12 +58,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         style={{ width: '248px' }}
       >
         {/* Logo */}
-        <div className="px-5 py-5 flex items-center gap-3 border-b border-slate-100">
+        <Link to="/" className="px-5 py-5 flex items-center gap-3 border-b border-slate-100 cursor-pointer hover:opacity-90">
           <div className="w-8 h-8 rounded-xl bg-indigo-600 flex items-center justify-center">
             <div className="w-3.5 h-3.5 rounded-sm bg-white opacity-90" />
           </div>
           <span className="font-semibold text-slate-800 text-[15px] tracking-tight">TaskFlow</span>
-        </div>
+        </Link>
 
         {/* Nav */}
         <nav className="flex-1 px-3 py-4 space-y-0.5">
@@ -91,11 +109,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </aside>
 
       <div className="flex-1 flex flex-col min-h-screen w-full lg:pl-[248px]">
-        <header className="sticky top-0 z-10 bg-[#f8f9fc]/80 backdrop-blur border-b border-slate-100 px-4 py-3.5 flex items-center gap-4">
-          <button className="lg:hidden text-slate-500" onClick={() => setSidebarOpen(true)}>
-            <Menu size={20} />
+        <header className="sticky top-0 z-10 bg-[#f8f9fc]/80 backdrop-blur border-b border-slate-100 px-4 py-3.5 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <button className="lg:hidden text-slate-500" onClick={() => setSidebarOpen(true)}>
+              <Menu size={20} />
+            </button>
+            <h1 className="text-[15px] font-semibold text-slate-800">{currentLabel}</h1>
+          </div>
+          <button
+            onClick={toggleTheme}
+            className="w-9 h-9 rounded-xl flex items-center justify-center border border-slate-200 text-slate-500 hover:bg-slate-100 dark:border-slate-700/50 dark:text-slate-300 dark:hover:bg-slate-800/80 dark:bg-slate-900/40 transition-colors"
+            title={theme === 'light' ? 'Увімкнути темну тему' : 'Увімкнути світлу тему'}
+          >
+            {theme === 'light' ? <Moon size={17} /> : <Sun size={17} />}
           </button>
-          <h1 className="text-[15px] font-semibold text-slate-800">{currentLabel}</h1>
         </header>
 
         <main className="flex-1 px-3 sm:px-6 py-6 page-fade">

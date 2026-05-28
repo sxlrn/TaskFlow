@@ -89,3 +89,147 @@ html, body {
   -ms-overflow-style: none !important;
   scrollbar-width: none !important;
 }
+
+/* Premium Dark Mode Overrides */
+.dark body {
+  background-color: #0F1117 !important;
+  color: #F8FAFC !important;
+}
+
+/* Sidebar and Header Overrides */
+.dark aside,
+.dark header,
+.dark .bg-white {
+  background-color: #161B2C !important;
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+.dark .border,
+.dark .border-b,
+.dark .border-t,
+.dark .border-r,
+.dark .border-l,
+.dark .border-slate-100,
+.dark .border-slate-200 {
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Background overrides for body areas */
+.dark .bg-\[\#f8f9fc\],
+.dark .bg-slate-50,
+.dark .bg-slate-50\/50,
+.dark .bg-slate-100,
+.dark .bg-gray-50,
+.dark .bg-gray-100 {
+  background-color: #0F1117 !important;
+}
+
+.dark .bg-slate-200,
+.dark .bg-gray-200 {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Hover background overrides */
+.dark .hover\:bg-slate-50:hover,
+.dark .hover\:bg-slate-100:hover,
+.dark .sidebar-link:hover:not(.active) {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+}
+
+/* Scrollbar dark mode */
+.dark ::-webkit-scrollbar-thumb {
+  background: #3B4260;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #4E577C;
+}
+
+/* Text overrides */
+.dark .text-slate-800,
+.dark .text-slate-900,
+.dark .text-slate-700,
+.dark .text-slate-600,
+.dark .text-gray-900,
+.dark .text-gray-800,
+.dark .text-gray-700,
+.dark .text-gray-600 {
+  color: #F8FAFC !important;
+}
+
+.dark .text-slate-500,
+.dark .text-slate-400,
+.dark .text-gray-500,
+.dark .text-gray-400 {
+  color: #94A3B8 !important;
+}
+
+.dark .text-slate-300,
+.dark .text-gray-300 {
+  color: #64748B !important;
+}
+
+/* Input, Textarea, Select styling in dark mode */
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: #1A2138 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  color: #F8FAFC !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #64748B !important;
+}
+
+/* Dropdown list items inside modal or popovers */
+.dark .shadow-lg {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Active links */
+.dark .sidebar-link.active {
+  background: rgba(99, 102, 241, 0.15);
+  color: #8B5CF6;
+}
+
+/* Buttons */
+.dark .bg-indigo-600 {
+  background-color: #6366f1 !important;
+}
+.dark .hover\:bg-indigo-700:hover {
+  background-color: #4f46e5 !important;
+}
+
+/* Fix text contrast in modal title or subtitles */
+.dark .text-indigo-500,
+.dark .text-indigo-600 {
+  color: #818cf8 !important;
+}
+
+/* Card Specific Fixes */
+.dark .bg-emerald-50,
+.dark .bg-amber-50,
+.dark .bg-blue-50,
+.dark .bg-rose-50,
+.dark .bg-violet-50,
+.dark .bg-indigo-50 {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* Semi-transparent icon wrapper in dark cards */
+.dark .bg-white\/60 {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Fix contrast of badge text */
+.dark .text-emerald-600 { color: #34d399 !important; }
+.dark .text-amber-600 { color: #fbbf24 !important; }
+.dark .text-blue-600 { color: #60a5fa !important; }
+.dark .text-rose-600 { color: #f87171 !important; }
+.dark .text-violet-600 { color: #a78bfa !important; }
+
+/* Modal overlay fixes */
+.dark .bg-black\/30 {
+  background-color: rgba(0, 0, 0, 0.6) !important;
+}

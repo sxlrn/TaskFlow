@@ -293,8 +293,8 @@ function TaskModal({ task, parentId, projects, users, currentUser, onClose, onAd
   });
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto">
+    <div onClick={onClose} className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm cursor-pointer">
+      <div onClick={e => e.stopPropagation()} className="bg-white rounded-2xl shadow-xl w-full max-w-lg p-6 max-h-[90vh] overflow-y-auto cursor-default">
         <div className="flex items-center justify-between mb-5">
           <h2 className="font-semibold text-slate-800">
             {currentTask ? 'Деталі задачі' : (parentId ? 'Нова підзадача' : 'Нова задача')}

@@ -67,14 +67,26 @@ export default function Login() {
   }, []);
 
   const handleSubmit = async () => {
-    if (!email || !password) { setError('Заповніть всі поля'); return; }
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail || !password) {
+      setError('Заповніть всі поля');
+      return;
+    }
+    if (/[\p{Extended_Pictographic}]/u.test(trimmedEmail)) {
+      setError('Email не може містити емодзі');
+      return;
+    }
+    if (password.includes(' ')) {
+      setError('Пароль не може містити пробіли');
+      return;
+    }
     setLoading(true);
     setError('');
     try {
-      await login(email, password);
+      await login(trimmedEmail, password);
       navigate('/');
-    } catch {
-      setError('Невірний email або пароль');
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Невірний email або пароль');
     } finally {
       setLoading(false);
     }

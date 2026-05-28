@@ -78,7 +78,19 @@ export const updateUser = async (req: AuthRequest, res: Response): Promise<void>
       return;
     }
 
-    const data: Record<string, unknown> = { full_name, avatar_color, department };
+    if (password && password.includes(' ')) {
+      res.status(400).json({ error: 'Пароль не може містити пробіли' });
+      return;
+    }
+
+    const trimmedFullName = full_name?.trim();
+    const trimmedDepartment = department?.trim();
+
+    const data: Record<string, unknown> = {
+      full_name: trimmedFullName,
+      avatar_color,
+      department: trimmedDepartment,
+    };
     if (role) data.role = role;
     if (password) data.password = await bcrypt.hash(password, 10);
 

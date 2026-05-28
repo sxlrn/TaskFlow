@@ -84,8 +84,14 @@ function ProjectModal({ project, onClose }: { project?: Project; onClose: () => 
   const sel = 'w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300';
 
   const mutation = useMutation({
-    mutationFn: (data: typeof form) =>
-      project ? api.put(`/projects/${project.id}`, data) : api.post('/projects', data),
+    mutationFn: (data: typeof form) => {
+      const trimmedData = {
+        ...data,
+        title: data.title.trim(),
+        description: data.description.trim(),
+      };
+      return project ? api.put(`/projects/${project.id}`, trimmedData) : api.post('/projects', trimmedData);
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['projects'] });
       onClose();
@@ -93,8 +99,8 @@ function ProjectModal({ project, onClose }: { project?: Project; onClose: () => 
   });
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm">
-       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 max-h-[90vh] overflow-y-auto">
+    <div onClick={onClose} className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm cursor-pointer">
+       <div onClick={e => e.stopPropagation()} className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 max-h-[90vh] overflow-y-auto cursor-default">
         <div className="flex items-center justify-between mb-5">
           <h2 className="font-semibold text-slate-800">{project ? 'Редагувати проєкт' : 'Новий проєкт'}</h2>
           <button onClick={onClose} className="text-slate-400 hover:text-slate-600"><X size={18} /></button>
@@ -146,7 +152,7 @@ function ProjectModal({ project, onClose }: { project?: Project; onClose: () => 
         <div className="flex gap-3 mt-6">
           <button onClick={onClose} className="flex-1 py-2 rounded-xl border border-slate-200 text-sm text-slate-600 hover:bg-slate-50 transition">Скасувати</button>
           <button
-            onClick={() => form.title && mutation.mutate(form)}
+            onClick={() => form.title.trim() && mutation.mutate(form)}
             disabled={mutation.isPending}
             className="flex-1 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 text-white text-sm font-medium transition">
             {mutation.isPending ? 'Збереження...' : project ? 'Зберегти' : 'Створити'}

@@ -10,8 +10,24 @@ const getIp = (req: Request) => req.ip || req.headers['x-forwarded-for']?.toStri
 export const register = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password, full_name } = req.body;
+    const trimmedEmail = email?.trim();
 
-    const existing = await prisma.user.findUnique({ where: { email } });
+    if (!trimmedEmail) {
+      res.status(400).json({ error: 'Email не може бути порожнім' });
+      return;
+    }
+
+    if (/[\p{Extended_Pictographic}]/u.test(trimmedEmail)) {
+      res.status(400).json({ error: 'Email не може містити емодзі' });
+      return;
+    }
+
+    if (!password || password.includes(' ')) {
+      res.status(400).json({ error: 'Пароль не може містити пробіли' });
+      return;
+    }
+
+    const existing = await prisma.user.findUnique({ where: { email: trimmedEmail } });
     if (existing) {
       res.status(400).json({ error: 'Користувач з таким email вже існує' });
       return;
@@ -19,11 +35,11 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 
     const hashed = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
-      data: { email, password: hashed, full_name },
+      data: { email: trimmedEmail, password: hashed, full_name: full_name?.trim() },
     });
 
     await prisma.authLog.create({
-      data: { user_id: user.id, email, ip: getIp(req), success: true },
+      data: { user_id: user.id, email: trimmedEmail, ip: getIp(req), success: true },
     });
 
     res.status(201).json({ message: 'Реєстрація успішна' });
@@ -35,12 +51,28 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body;
+    const trimmedEmail = email?.trim();
 
-    const user = await prisma.user.findUnique({ where: { email } });
+    if (!trimmedEmail) {
+      res.status(400).json({ error: 'Email не може бути порожнім' });
+      return;
+    }
+
+    if (/[\p{Extended_Pictographic}]/u.test(trimmedEmail)) {
+      res.status(400).json({ error: 'Email не може містити емодзі' });
+      return;
+    }
+
+    if (!password || password.includes(' ')) {
+      res.status(400).json({ error: 'Пароль не може містити пробіли' });
+      return;
+    }
+
+    const user = await prisma.user.findUnique({ where: { email: trimmedEmail } });
 
     if (!user || !user.password || !(await bcrypt.compare(password, user.password))) {
       await prisma.authLog.create({
-        data: { email, ip: getIp(req), success: false },
+        data: { email: trimmedEmail, ip: getIp(req), success: false },
       });
       res.status(401).json({ error: 'Невірний email або пароль' });
       return;

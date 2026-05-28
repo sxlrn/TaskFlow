@@ -47,11 +47,18 @@ export const getProject = async (req: AuthRequest, res: Response): Promise<void>
 export const createProject = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const { title, description, status, priority, color, deadline } = req.body;
+    const trimmedTitle = title?.trim();
+    const trimmedDescription = description?.trim() || null;
+
+    if (!trimmedTitle) {
+      res.status(400).json({ error: 'Назва проєкту не може бути порожньою' });
+      return;
+    }
 
     const project = await prisma.project.create({
       data: {
-        title,
-        description,
+        title: trimmedTitle,
+        description: trimmedDescription,
         status,
         priority,
         color,
@@ -83,10 +90,22 @@ export const updateProject = async (req: AuthRequest, res: Response): Promise<vo
       return;
     }
 
+    const trimmedTitle = title?.trim();
+    const trimmedDescription = description?.trim() || null;
+
+    if (!trimmedTitle) {
+      res.status(400).json({ error: 'Назва проєкту не може бути порожньою' });
+      return;
+    }
+
     const project = await prisma.project.update({
       where: { id },
       data: {
-        title, description, status, priority, color,
+        title: trimmedTitle,
+        description: trimmedDescription,
+        status,
+        priority,
+        color,
         deadline: deadline ? new Date(deadline) : null,
       },
       include: {
